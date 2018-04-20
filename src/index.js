@@ -1,15 +1,8 @@
-import _ from 'lodash';
+const canvas = document.querySelector('#my-canvas');
+const ctx = canvas.getContext('2d');
 
-function component() {
-  const element = document.createElement('div');
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
 
-  element.innerHTML = _.join(['Hello', 'webpack'], ' ');
-
-  return element;
-}
-
-document.body.appendChild(component());
-
-const arr = [1, 2, 3];
-const iAmJavascriptES6 = () => console.log(...arr);
-window.iAmJavascriptES6 = iAmJavascriptES6;
+ctx.rect(20, 20, 150, 100);
+ctx.fill();
