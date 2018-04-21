@@ -18,22 +18,3 @@ export const timestamp = () =>
  */
 export const calculateDeltaTime = (now, last) =>
   Math.min(1, (now - last) / 1000);
-
-/**
- * Calculate the delta time for each frame.
- *
- * @returns {function(): number}
- */
-export const dt = () => {
-  let now = timestamp();
-  let last = now;
-
-  return () => {
-    now = timestamp();
-    const dt = calculateDeltaTime(now, last);
-
-    last = now;
-
-    return dt;
-  };
-};
