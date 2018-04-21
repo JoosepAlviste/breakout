@@ -4,8 +4,8 @@ import { primary, defaultColor } from '../config/colors';
 import { BALL_RADIUS } from '../config';
 
 class Ball extends GameObject {
-  constructor(x, y, radius = BALL_RADIUS, vx = 250, vy = -250) {
-    super(x, y);
+  constructor({ x, y, radius = BALL_RADIUS, vx = 250, vy = -250 }) {
+    super({ x, y });
 
     this.radius = radius;
     this.vx = vx;
