@@ -1,6 +1,7 @@
 import GameObject from './GameObject';
 import { ctx, canvas } from '../canvas';
 import { defaultColor, primary } from '../config/colors';
+import { RectangleCollider } from '../collision/colliders';
 import KEYS from '../utils/keys';
 
 /**
@@ -29,6 +30,14 @@ class Paddle extends GameObject {
 
     this.x = (canvas.clientWidth - this._width) / 2;
     this.y = (canvas.clientHeight - this._height);
+
+    this.collider = new RectangleCollider({
+      x: this.x,
+      y: this.y,
+      width: this._width,
+      height: this._height,
+      name: 'Paddle',
+    });
   }
 
   _update(dt) {
@@ -43,6 +52,8 @@ class Paddle extends GameObject {
       && this.x + this._width < canvas.clientWidth) {
       this.x += dx;
     }
+
+    this.collider.update({ x: this.x });
   }
 
   _draw() {

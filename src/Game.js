@@ -3,6 +3,7 @@ import { ctx, canvas } from './canvas';
 import { timestamp, calculateDeltaTime } from './utils/timestamp';
 import { BALL_RADIUS } from './config';
 import Controls from './utils/Controls';
+import Collision from './collision';
 
 /**
  * The main Game class. Contains the game loop logic.
@@ -14,6 +15,7 @@ import Controls from './utils/Controls';
  * @property {number} _last
  * @property {number} _timeStep
  * @property {Controls} _controls
+ * @property {Collision} _collision
  */
 class Game {
   constructor() {
@@ -26,6 +28,8 @@ class Game {
 
     this._controls = new Controls();
     this._controls.registerListeners();
+
+    this._collision = new Collision();
 
     this._frame = this._frame.bind(this);
   }
@@ -47,6 +51,8 @@ class Game {
 
   _update(dt) {
     this.gameObjects.forEach(object => object._update(dt));
+
+    this._collision.detect(this.gameObjects);
   }
 
   _draw() {
