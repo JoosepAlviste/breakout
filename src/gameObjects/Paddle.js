@@ -19,13 +19,15 @@ class Paddle extends GameObject {
    * @param {number} x
    * @param {number} y
    * @param {Controls} controls
+   * @param {number} width
+   * @param {number} height
    */
-  constructor({ x, y, controls }) {
+  constructor({ x, y, controls, width = 100, height = 10 }) {
     super({ x, y });
 
     this.controls = controls;
-    this._width = 100;
-    this._height = 10;
+    this._width = width;
+    this._height = height;
     this.vx = 500;
 
     this.x = (canvas.clientWidth - this._width) / 2;
@@ -37,6 +39,7 @@ class Paddle extends GameObject {
       width: this._width,
       height: this._height,
       name: 'Paddle',
+      object: this,
     });
   }
 

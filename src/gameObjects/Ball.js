@@ -4,15 +4,22 @@ import { primary, defaultColor } from '../config/colors';
 import { BALL_RADIUS } from '../config';
 import { CircleCollider } from '../collision/colliders';
 
+/**
+ * @property {number} radius
+ * @property {number} vx
+ * @property {number} vy
+ * @property {Game} _game
+ */
 class Ball extends GameObject {
-  constructor({ x, y, radius = BALL_RADIUS, vx = 250, vy = -250 }) {
+  constructor({ x, y, radius = BALL_RADIUS, vx = 250, vy = -250, game }) {
     super({ x, y });
 
     this.radius = radius;
     this.vx = vx;
     this.vy = vy;
+    this._game = game;
 
-    this.collider = new CircleCollider({ x, y, radius, name: 'Ball' });
+    this.collider = new CircleCollider({ x, y, radius, name: 'Ball', object: this });
   }
 
   _update(dt) {
@@ -26,8 +33,26 @@ class Ball extends GameObject {
     } else if (y + dy < radius) {
       this.vy *= -1;
     } else if (y + dy > canvas.clientHeight - radius) {
-      // TODO: Dead
-      window.location.reload();
+      this._game.gameOver();
+    }
+
+    if (this.collider.collidesWith('Brick')) {
+      const brick = this.collider.getCollisionWith('Brick');
+
+      const botDistance = Math.abs(brick.y + brick.height - this.y);
+      const topDistance = Math.abs(brick.y - this.y);
+      const leftDistance = Math.abs(brick.x - this.x);
+      const rightDistance = Math.abs(brick.x + brick.width - this.x);
+
+      if (botDistance <= leftDistance && botDistance <= rightDistance) {
+        this.vy *= -1;
+      } else if (topDistance <= leftDistance && topDistance <= rightDistance) {
+        this.vy *= -1;
+      } else {
+        this.vx *= -1;
+      }
+
+      brick.dead = true;
     }
 
     vy = this.vy;

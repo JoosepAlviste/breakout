@@ -6,8 +6,8 @@ import CircleCollider from './CircleCollider';
  * @property {number} height
  */
 class RectangleCollider extends Collider {
-  constructor({ x, y, width, height, name }) {
-    super({ x, y, name });
+  constructor({ x, y, width, height, name, object }) {
+    super({ x, y, name, object });
 
     this.width = width;
     this.height = height;

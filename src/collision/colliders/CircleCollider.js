@@ -2,8 +2,8 @@ import Collider from './Collider';
 import RectangleCollider from './RectangleCollider';
 
 class CircleCollider extends Collider {
-  constructor({ x, y, name, radius }) {
-    super({ x, y, name });
+  constructor({ x, y, name, radius, object }) {
+    super({ x, y, name, object });
 
     this.radius = radius;
   }

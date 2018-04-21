@@ -2,11 +2,13 @@
  * @property {number} x
  * @property {number} y
  * @property {Collider|null} collider
+ * @property {boolean} dead
  */
 class GameObject {
-  constructor({ x, y }) {
+  constructor({ x, y, dead = false }) {
     this.x = x;
     this.y = y;
+    this.dead = dead;
 
     this.collider = null;
   }

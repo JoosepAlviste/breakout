@@ -5,13 +5,15 @@
  * @property {number} x
  * @property {number} y
  * @property {Collider[]} _collisions
+ * @property {GameObject} object
  */
 class Collider {
 
-  constructor({ name, x, y }) {
+  constructor({ name, x, y, object }) {
     this.name = name;
     this.x = x;
     this.y = y;
+    this.object = object;
 
     this._collisions = [];
   }
@@ -62,11 +64,11 @@ class Collider {
    *
    * @param colliderName
    *
-   * @returns {Collider}
+   * @returns {GameObject}
    */
   getCollisionWith(colliderName) {
     return this._collisions
-      .filter(collider => collider.name === colliderName)[0]
+      .filter(collider => collider.name === colliderName)[0].object;
   }
 }
 
