@@ -1,8 +1,27 @@
-const canvas = document.querySelector('#my-canvas');
-const ctx = canvas.getContext('2d');
+import { canvas, ctx } from './canvas';
+import Game from './Game';
 
-canvas.width = window.innerWidth;
-canvas.height = window.innerHeight;
+/**
+ * Resize the canvas to full screen and make sure it looks good on retina
+ * screens.
+ *
+ * Source:
+ * https://stackoverflow.com/questions/24395076/canvas-generated-by-canvg-is-blurry-on-retina-screen
+ */
+function resizeCanvas() {
+  const pixelRatio = window.devicePixelRatio || 1;
 
-ctx.rect(20, 20, 150, 100);
-ctx.fill();
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+  canvas.style.width = `${canvas.width}px`;
+  canvas.style.height = `${canvas.height}px`;
+  canvas.width = canvas.width * pixelRatio;
+  canvas.height = canvas.height * pixelRatio;
+
+  ctx.setTransform(pixelRatio, 0, 0, pixelRatio, 0, 0);
+}
+
+resizeCanvas();
+
+const game = new Game();
+game.start();
