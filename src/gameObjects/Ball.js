@@ -8,16 +8,32 @@ import {
   mirrorAngleVertically,
 } from '../core/utils/trigonometry';
 import { primary, defaultColor } from '../config/colors';
-import { BALL_RADIUS } from '../config';
+import { BALL_INITIAL_ANGLE, BALL_RADIUS, BALL_VELOCITY } from '../config';
 
 /**
  * @property {number} radius
  * @property {number} v
  * @property {number} angle
- * @property {GameLoop} _game
+ * @property {Game} _game
  */
 class Ball extends GameObject {
-  constructor({ x, y, radius = BALL_RADIUS, v = 250, angle = Math.PI / 4, game }) {
+  /**
+   *
+   * @param {number} x
+   * @param {number} y
+   * @param {Game} game
+   * @param {number} radius
+   * @param {number} v
+   * @param {number} angle
+   */
+  constructor({
+                x,
+                y,
+                game,
+                radius = BALL_RADIUS,
+                v = BALL_VELOCITY,
+                angle = BALL_INITIAL_ANGLE,
+              }) {
     super({ x, y });
 
     this.radius = radius;
@@ -43,6 +59,8 @@ class Ball extends GameObject {
     // Collision with the Paddle
     if (this.collider.collidesWith('Paddle')) {
       this.angle = mirrorAngleVertically(this.angle);
+
+      // TODO: What if it hits the corner/side?
     }
 
     this._checkBrickCollision();

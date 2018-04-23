@@ -2,6 +2,7 @@ import { GameObject } from '../core';
 import { ctx, canvas } from '../core/utils/canvas';
 import { RectangleCollider } from '../core/collision/colliders';
 import { defaultColor, primary } from '../config/colors';
+import { PADDLE_HEIGHT, PADDLE_VELOCITY, PADDLE_WIDTH } from '../config';
 
 /**
  * The Paddle game object.
@@ -20,14 +21,22 @@ class Paddle extends GameObject {
    * @param {Controls} controls
    * @param {number} width
    * @param {number} height
+   * @param {number} v
    */
-  constructor({ x, y, controls, width = 100, height = 10 }) {
+  constructor({
+                x,
+                y,
+                controls,
+                width = PADDLE_WIDTH,
+                height = PADDLE_HEIGHT,
+                v = PADDLE_VELOCITY,
+              }) {
     super({ x, y });
 
     this.controls = controls;
     this._width = width;
     this._height = height;
-    this.vx = 500;
+    this.vx = v;
 
     this.x = (canvas.clientWidth - this._width) / 2;
     this.y = (canvas.clientHeight - this._height);
