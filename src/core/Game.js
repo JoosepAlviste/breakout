@@ -1,20 +1,17 @@
 /**
  * @property {GameObject[]} gameObjects
  * @property {boolean} isGameOver;
- * @property {Controls} _controls}
  * @property {GameLoop} _gameLoop
  * @property {Collision} _collision
  */
 class Game {
   /**
    * @param {GameLoop} gameLoop
-   * @param {Controls} controls
    * @param {Collision} collision
    */
-  constructor({ gameLoop, controls, collision }) {
+  constructor({ gameLoop, collision }) {
     this._gameLoop = gameLoop;
     this._gameLoop.setGame(this);
-    this._controls = controls;
     this._collision = collision;
 
     this.gameObjects = [];

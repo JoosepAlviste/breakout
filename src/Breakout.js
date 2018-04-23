@@ -18,7 +18,9 @@ class Breakout extends Game {
    * @param {Collision} collision
    */
   constructor({ gameLoop, controls, collision }) {
-    super({ gameLoop, controls, collision });
+    super({ gameLoop, collision });
+
+    this._controls = controls;
   }
 
   start() {
