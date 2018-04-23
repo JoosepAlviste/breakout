@@ -8,7 +8,6 @@ import {
   BRICK_PADDING,
   BRICK_ROW_COUNT,
 } from './config';
-import Controls from './utils/Controls';
 import Collision from './collision';
 import Brick from './gameObjects/Brick';
 import { brickWidth } from './utils/brickCalculator';
@@ -27,7 +26,7 @@ import { brickWidth } from './utils/brickCalculator';
  * @property {boolean} _isGameOver
  */
 class Game {
-  constructor() {
+  constructor({ controls }) {
     this.gameObjects = [];
 
     this._dt = 0;
@@ -37,8 +36,7 @@ class Game {
 
     this._isGameOver = false;
 
-    this._controls = new Controls();
-    this._controls.registerListeners();
+    this._controls = controls;
 
     this._collision = new Collision();
 

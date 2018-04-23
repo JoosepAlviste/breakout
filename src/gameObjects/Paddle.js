@@ -2,7 +2,6 @@ import GameObject from './GameObject';
 import { ctx, canvas } from '../canvas';
 import { defaultColor, primary } from '../config/colors';
 import { RectangleCollider } from '../collision/colliders';
-import KEYS from '../utils/keys';
 
 /**
  * The Paddle game object.
@@ -47,11 +46,11 @@ class Paddle extends GameObject {
     const { vx } = this;
     const dx = vx * dt;
 
-    if (this.controls.isDown(KEYS.LEFT_ARROW) && this.x > 0) {
+    if (this.controls.isLeft() && this.x > 0) {
       this.x -= dx;
     }
 
-    if (this.controls.isDown(KEYS.RIGHT_ARROW)
+    if (this.controls.isRight()
       && this.x + this._width < canvas.clientWidth) {
       this.x += dx;
     }
