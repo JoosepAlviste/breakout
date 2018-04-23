@@ -7,8 +7,8 @@ import { calculateAdjacentSide, calculateOppositeSide } from '../utils/trigonome
 
 /**
  * @property {number} radius
- * @property {number} vx
- * @property {number} vy
+ * @property {number} v
+ * @property {number} angle
  * @property {Game} _game
  */
 class Ball extends GameObject {
@@ -24,66 +24,35 @@ class Ball extends GameObject {
   }
 
   update(dt) {
-    let { x, y, v, angle, radius } = this;
+    const { x, y, v, radius } = this;
 
-    let vx = Math.abs(calculateOppositeSide({ angle, hypotenuse: v }));
-    let vy = Math.abs(calculateAdjacentSide({ angle, hypotenuse: v }));
+    // Calculate initial coordinate changes
+    let dx = calculateAdjacentSide({ angle: this.angle, hypotenuse: v }) * dt;
+    let dy = -calculateOppositeSide({ angle: this.angle, hypotenuse: v }) * dt;
 
-    if (angle < Math.PI) {
-      vy *= -1;
-    }
-
-    if (angle > Math.PI / 2 && angle < Math.PI * 3 / 2) {
-      vx *= -1;
-    }
-
-    let dx = vx * dt;
-    let dy = vy * dt;
-
-    if (this.collider.collidesWith('Paddle')) {
-      this._mirrorVertically();
-    } else if (y + dy < radius) {
-      this._mirrorVertically();
-    } else if (y + dy > canvas.clientHeight - radius) {
+    // Collision with the floor - Game Over
+    if (y + dy > canvas.clientHeight - radius) {
       this._game.gameOver();
     }
 
-    if (this.collider.collidesWith('Brick')) {
-      const brick = this.collider.getCollisionWith('Brick');
-
-      const botDistance = Math.abs(brick.y + brick.height - this.y);
-      const topDistance = Math.abs(brick.y - this.y);
-      const leftDistance = Math.abs(brick.x - this.x);
-      const rightDistance = Math.abs(brick.x + brick.width - this.x);
-
-      if (botDistance <= leftDistance && botDistance <= rightDistance) {
-        this._mirrorVertically();
-      } else if (topDistance <= leftDistance && topDistance <= rightDistance) {
-        this._mirrorVertically();
-      } else {
-        this._mirrorHorizontally();
-      }
-
-      brick.dead = true;
+    // Collision with the Paddle
+    if (this.collider.collidesWith('Paddle')) {
+      this._mirrorVertically();
     }
 
+    this._checkBrickCollision();
+
+    // Bounce off of walls
     if (x + dx < radius || x + dx > canvas.clientWidth - radius) {
       this._mirrorHorizontally();
     }
-
-    vx = Math.abs(calculateOppositeSide({ angle: this.angle, hypotenuse: this.v }));
-    vy = Math.abs(calculateAdjacentSide({ angle: this.angle, hypotenuse: this.v }));
-
-    if (this.angle < Math.PI) {
-      vy *= -1;
+    if (y + dy < radius) {
+      this._mirrorVertically();
     }
 
-    if (this.angle > Math.PI / 2 && this.angle < Math.PI * 3 / 2) {
-      vx *= -1;
-    }
-
-    dx = vx * dt;
-    dy = vy * dt;
+    // Recalculate the changes because we might have changed something (angle)
+    dx = calculateAdjacentSide({ angle: this.angle, hypotenuse: v }) * dt;
+    dy = -calculateOppositeSide({ angle: this.angle, hypotenuse: v }) * dt;
 
     this.x = x + dx;
     this.y = y + dy;
@@ -96,11 +65,14 @@ class Ball extends GameObject {
 
     ctx.fillStyle = primary;
     ctx.beginPath();
-    ctx.arc(x, y, radius, 0, 2*Math.PI);
+    ctx.arc(x, y, radius, 0, 2 * Math.PI);
     ctx.fill();
     ctx.fillStyle = defaultColor;
   }
 
+  /**
+   * Mirror the angle horizontally to simulate bouncing off of a vertical wall.
+   */
   _mirrorHorizontally() {
     this.angle = -this.angle + Math.PI;
     if (this.angle < 0) {
@@ -108,10 +80,33 @@ class Ball extends GameObject {
     }
   }
 
+  /**
+   * Mirror the angle vertically to simulate bouncing off of a horizontal wall.
+   */
   _mirrorVertically() {
     this.angle = -this.angle;
     if (this.angle < 0) {
-      this.angle = (this.angle % (Math.PI * 2)) + Math.PI * 2
+      this.angle = (this.angle % (Math.PI * 2)) + Math.PI * 2;
+    }
+  }
+
+  _checkBrickCollision() {
+    if (this.collider.collidesWith('Brick')) {
+      const { x, y } = this;
+
+      const brick = this.collider.getCollisionWith('Brick');
+
+      if (x >= brick.x && x <= brick.x + brick.width) {
+        this._mirrorVertically();
+      } else if (y >= brick.y && y <= brick.y + brick.height) {
+        this._mirrorHorizontally();
+      } else {
+        // In the corner, we want to bounce back the way we came
+        this._mirrorVertically();
+        this._mirrorHorizontally();
+      }
+
+      brick.die();
     }
   }
 }

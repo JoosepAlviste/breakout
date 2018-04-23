@@ -26,6 +26,10 @@ class Brick extends GameObject {
     ctx.fillRect(x, y, width, height);
     ctx.fillStyle = defaultColor;
   }
+
+  die() {
+    this.dead = true;
+  }
 }
 
 export default Brick;
