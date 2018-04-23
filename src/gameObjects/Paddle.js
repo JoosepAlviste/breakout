@@ -43,7 +43,7 @@ class Paddle extends GameObject {
     });
   }
 
-  _update(dt) {
+  update(dt) {
     const { vx } = this;
     const dx = vx * dt;
 
@@ -59,7 +59,7 @@ class Paddle extends GameObject {
     this.collider.update({ x: this.x });
   }
 
-  _draw() {
+  draw() {
     const { x, y, _width, _height } = this;
 
     ctx.fillStyle = primary;

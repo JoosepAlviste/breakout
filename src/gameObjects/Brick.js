@@ -15,11 +15,11 @@ class Brick extends GameObject {
     });
   }
 
-  _update(dt) {
+  update(dt) {
     this.collider.update({});
   }
 
-  _draw() {
+  draw() {
     const { x, y, width, height } = this;
 
     ctx.fillStyle = primary;

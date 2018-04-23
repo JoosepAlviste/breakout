@@ -71,9 +71,9 @@ class Game {
   }
 
   _update(dt) {
-    this.gameObjects = this.gameObjects.filter(object => !object.dead)
+    this.gameObjects = this.gameObjects.filter(object => !object.dead);
 
-    this.gameObjects.forEach(object => object._update(dt));
+    this.gameObjects.forEach(object => object.update(dt));
 
     this._collision.detect(this.gameObjects);
   }
@@ -81,7 +81,7 @@ class Game {
   _draw() {
     ctx.clearRect(0, 0, canvas.clientWidth, canvas.clientHeight);
 
-    this.gameObjects.forEach(object => object._draw());
+    this.gameObjects.forEach(object => object.draw());
   }
 
   _frame() {

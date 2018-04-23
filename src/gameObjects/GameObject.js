@@ -13,11 +13,11 @@ class GameObject {
     this.collider = null;
   }
 
-  _draw() {
+  draw() {
     console.error('Draw not implemented!');
   }
 
-  _update(dt) {
+  update(dt) {
     console.error('Update not implemented!');
   }
 }
