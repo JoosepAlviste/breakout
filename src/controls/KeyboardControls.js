@@ -14,12 +14,14 @@ class KeyboardControls extends Controls {
     this._registerListeners();
   }
 
-  isLeft() {
-    return this._isKeyDown(KEYS.LEFT_ARROW);
-  }
-
-  isRight() {
-    return this._isKeyDown(KEYS.RIGHT_ARROW);
+  makeMove() {
+    if (this._isKeyDown(KEYS.LEFT_ARROW)) {
+      return 'LEFT';
+    } else if (this._isKeyDown(KEYS.RIGHT_ARROW)) {
+      return 'RIGHT';
+    } else {
+      return null;
+    }
   }
 
   _registerListeners() {

@@ -46,13 +46,11 @@ class Paddle extends GameObject {
     const { vx } = this;
     const dx = vx * dt;
 
-    if (this.controls.isLeft() && this.x > 0) {
-      this.x -= dx;
-    }
-
-    if (this.controls.isRight()
-      && this.x + this._width < canvas.clientWidth) {
-      this.x += dx;
+    const move = this.controls.makeMove();
+    if (move === 'LEFT') {
+      this.x = Math.max(0, this.x - dx);
+    } else if (move === 'RIGHT') {
+      this.x = Math.min(canvas.clientWidth - this._width, this.x + dx);
     }
 
     this.collider.update({ x: this.x });
