@@ -9,7 +9,7 @@ export const timestamp = () =>
     : new Date().getTime();
 
 /**
- * Calculate the delta time in seconds. Minimum of 1 second since the browser
+ * Calculate the delta time in seconds. Maximum of 1 second since the browser
  * tab may lose focus resulting in a very large delta time.
  *
  * @param {number} now
