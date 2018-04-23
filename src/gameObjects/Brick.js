@@ -3,7 +3,21 @@ import { RectangleCollider } from '../collision/colliders';
 import { ctx } from '../canvas';
 import { defaultColor, primary } from '../config/colors';
 
+/**
+ * @property {number} x
+ * @property {number} y
+ * @property {boolean} dead
+ * @property {Collider} collider
+ * @property {number} width
+ * @property {number} height
+ */
 class Brick extends GameObject {
+  /**
+   * @param {number} x
+   * @param {number} y
+   * @param {number} width
+   * @param {number} height
+   */
   constructor({ x, y, width, height }) {
     super({ x, y });
 
@@ -25,10 +39,6 @@ class Brick extends GameObject {
     ctx.fillStyle = primary;
     ctx.fillRect(x, y, width, height);
     ctx.fillStyle = defaultColor;
-  }
-
-  die() {
-    this.dead = true;
   }
 }
 

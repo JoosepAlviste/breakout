@@ -90,6 +90,10 @@ class Ball extends GameObject {
     }
   }
 
+  /**
+   * Check if there has been a collision with a Brick object. If there has been
+   * a collision, bounce off of it and set the Brick as dead.
+   */
   _checkBrickCollision() {
     if (this.collider.collidesWith('Brick')) {
       const { x, y } = this;
