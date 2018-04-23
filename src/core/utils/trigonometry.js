@@ -21,3 +21,27 @@ export const calculateOppositeSide = ({ angle, hypotenuse }) =>
  */
 export const calculateAdjacentSide = ({ angle, hypotenuse }) =>
   Math.cos(angle) * hypotenuse;
+
+/**
+ * Mirror the angle horizontally to simulate reflecting on a vertical wall.
+ */
+export const mirrorAngleHorizontally = (angle) => {
+  angle = -angle + Math.PI;
+  if (angle < 0) {
+    angle = (angle % (Math.PI * 2)) + Math.PI * 2
+  }
+
+  return angle;
+};
+
+/**
+ * Mirror the angle vertically to simulate reflecting on a horizontal wall.
+ */
+export const mirrorAngleVertically = (angle) => {
+  angle = -angle;
+  if (angle < 0) {
+    angle = (angle % (Math.PI * 2)) + Math.PI * 2;
+  }
+
+  return angle;
+};

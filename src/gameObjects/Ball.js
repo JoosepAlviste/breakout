@@ -1,15 +1,20 @@
-import GameObject from './GameObject';
-import { ctx, canvas } from '../canvas';
+import { GameObject } from '../core';
+import { ctx, canvas } from '../core/utils/canvas';
+import { CircleCollider } from '../core/collision/colliders';
+import {
+  calculateAdjacentSide,
+  calculateOppositeSide,
+  mirrorAngleHorizontally,
+  mirrorAngleVertically,
+} from '../core/utils/trigonometry';
 import { primary, defaultColor } from '../config/colors';
 import { BALL_RADIUS } from '../config';
-import { CircleCollider } from '../collision/colliders';
-import { calculateAdjacentSide, calculateOppositeSide } from '../utils/trigonometry';
 
 /**
  * @property {number} radius
  * @property {number} v
  * @property {number} angle
- * @property {Game} _game
+ * @property {GameLoop} _game
  */
 class Ball extends GameObject {
   constructor({ x, y, radius = BALL_RADIUS, v = 250, angle = Math.PI / 4, game }) {
@@ -30,24 +35,24 @@ class Ball extends GameObject {
     let dx = calculateAdjacentSide({ angle: this.angle, hypotenuse: v }) * dt;
     let dy = -calculateOppositeSide({ angle: this.angle, hypotenuse: v }) * dt;
 
-    // Collision with the floor - Game Over
+    // Collision with the floor - GameLoop Over
     if (y + dy > canvas.clientHeight - radius) {
       this._game.gameOver();
     }
 
     // Collision with the Paddle
     if (this.collider.collidesWith('Paddle')) {
-      this._mirrorVertically();
+      this.angle = mirrorAngleVertically(this.angle);
     }
 
     this._checkBrickCollision();
 
     // Bounce off of walls
     if (x + dx < radius || x + dx > canvas.clientWidth - radius) {
-      this._mirrorHorizontally();
+      this.angle = mirrorAngleHorizontally(this.angle);
     }
     if (y + dy < radius) {
-      this._mirrorVertically();
+      this.angle = mirrorAngleVertically(this.angle);
     }
 
     // Recalculate the changes because we might have changed something (angle)
@@ -71,26 +76,6 @@ class Ball extends GameObject {
   }
 
   /**
-   * Mirror the angle horizontally to simulate bouncing off of a vertical wall.
-   */
-  _mirrorHorizontally() {
-    this.angle = -this.angle + Math.PI;
-    if (this.angle < 0) {
-      this.angle = (this.angle % (Math.PI * 2)) + Math.PI * 2
-    }
-  }
-
-  /**
-   * Mirror the angle vertically to simulate bouncing off of a horizontal wall.
-   */
-  _mirrorVertically() {
-    this.angle = -this.angle;
-    if (this.angle < 0) {
-      this.angle = (this.angle % (Math.PI * 2)) + Math.PI * 2;
-    }
-  }
-
-  /**
    * Check if there has been a collision with a Brick object. If there has been
    * a collision, bounce off of it and set the Brick as dead.
    */
@@ -101,13 +86,15 @@ class Ball extends GameObject {
       const brick = this.collider.getCollisionWith('Brick');
 
       if (x >= brick.x && x <= brick.x + brick.width) {
-        this._mirrorVertically();
+        this.angle = mirrorAngleVertically(this.angle);
       } else if (y >= brick.y && y <= brick.y + brick.height) {
-        this._mirrorHorizontally();
+        this.angle = mirrorAngleHorizontally(this.angle);
       } else {
         // In the corner, we want to bounce back the way we came
-        this._mirrorVertically();
-        this._mirrorHorizontally();
+        this.angle = mirrorAngleVertically(this.angle);
+        this.angle = mirrorAngleHorizontally(this.angle);
+
+        // TODO: Came from bot left, hit bot right corner?
       }
 
       brick.die();

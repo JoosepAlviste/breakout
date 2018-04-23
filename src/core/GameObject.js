@@ -20,7 +20,7 @@ class GameObject {
   }
 
   /**
-   * Update the properties and values on this Game Object.
+   * Update the properties and values on this GameLoop Object.
    *
    * @param {number} dt - delta time
    */
@@ -29,7 +29,7 @@ class GameObject {
   }
 
   /**
-   * Draw this Game Object to the screen. This must not modify any properties on
+   * Draw this GameLoop Object to the screen. This must not modify any properties on
    * this object.
    */
   draw() {

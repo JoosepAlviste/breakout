@@ -1,7 +1,7 @@
-import GameObject from './GameObject';
-import { ctx, canvas } from '../canvas';
+import { GameObject } from '../core';
+import { ctx, canvas } from '../core/utils/canvas';
+import { RectangleCollider } from '../core/collision/colliders';
 import { defaultColor, primary } from '../config/colors';
-import { RectangleCollider } from '../collision/colliders';
 
 /**
  * The Paddle game object.

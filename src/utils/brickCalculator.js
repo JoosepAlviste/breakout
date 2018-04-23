@@ -1,4 +1,4 @@
-import { canvas } from '../canvas';
+import { canvas } from '../core/utils/canvas';
 import {
   BRICK_OFFSET_LEFT,
   BRICK_COLUMN_COUNT,
@@ -7,7 +7,7 @@ import {
   BRICK_HEIGHT,
   BRICK_OFFSET_TOP,
 } from '../config';
-import Brick from '../gameObjects/Brick';
+import { Brick } from '../gameObjects';
 
 /**
  * Calculates the width of one brick using values from the imported

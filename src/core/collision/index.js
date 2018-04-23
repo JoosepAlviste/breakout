@@ -1,3 +1,3 @@
 import Collision from './Collision';
 
-export default Collision;
+export { Collision };

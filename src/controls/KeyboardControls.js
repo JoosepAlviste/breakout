@@ -1,5 +1,5 @@
+import KEYS from '../core/utils/keys';
 import Controls from './Controls';
-import KEYS from '../utils/keys';
 
 /**
  * Keyboard controls where pressing the left or right arrow keys triggers
