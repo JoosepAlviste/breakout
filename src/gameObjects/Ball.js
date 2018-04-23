@@ -61,6 +61,7 @@ class Ball extends GameObject {
       this.angle = mirrorAngleVertically(this.angle);
 
       // TODO: What if it hits the corner/side?
+      // TODO: Different angle depending on the paddle position
     }
 
     this._checkBrickCollision();
