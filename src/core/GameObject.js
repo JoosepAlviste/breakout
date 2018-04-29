@@ -6,7 +6,6 @@
  */
 class GameObject {
   /**
-   *
    * @param {number} x
    * @param {number} y
    * @param {boolean} dead
@@ -29,8 +28,8 @@ class GameObject {
   }
 
   /**
-   * Draw this GameLoop Object to the screen. This must not modify any properties on
-   * this object.
+   * Draw this GameLoop Object to the screen. This must not modify any
+   * properties on this object.
    */
   draw() {
     console.error('Draw not implemented!');

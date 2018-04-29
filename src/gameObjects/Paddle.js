@@ -3,7 +3,7 @@ import { ctx, canvas } from '../core/utils/canvas';
 import { RectangleCollider } from '../core/collision/colliders';
 import { defaultColor, primary } from '../config/colors';
 import { PADDLE_HEIGHT, PADDLE_VELOCITY, PADDLE_WIDTH } from '../config';
-import { NO_ACTION, LEFT, RIGHT } from '../config/actions';
+import { LEFT, RIGHT } from '../config/actions';
 
 /**
  * The Paddle game object.
@@ -56,7 +56,7 @@ class Paddle extends GameObject {
     const { vx } = this;
     const dx = vx * dt;
 
-    const move = this.controls.makeMove();
+    const move = this.controls.getAction();
     if (move === LEFT) {
       this.x = Math.max(0, this.x - dx);
     } else if (move === RIGHT) {

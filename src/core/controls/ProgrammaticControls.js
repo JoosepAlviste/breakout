@@ -1,24 +1,23 @@
 import Controls from './Controls';
-import { NO_ACTION, RIGHT, LEFT } from '../config/actions';
 
 /**
- * @property {NO_ACTION|LEFT|RIGHT} nextAction
+ * @property {number|Null} nextAction
  */
 class ProgrammaticControls extends Controls {
   constructor() {
     super();
 
-    this.nextAction = NO_ACTION;
+    this.nextAction = null;
   }
 
-  makeMove() {
+  getAction() {
     return this.nextAction;
   }
 
   /**
    * Set the action to be taken next.
    *
-   * @param {NO_ACTION|LEFT|RIGHT} action
+   * @param {number} action
    */
   setAction(action) {
     this.nextAction = action;

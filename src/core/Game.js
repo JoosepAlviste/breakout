@@ -1,18 +1,29 @@
+import { Controls, ProgrammaticControls } from './controls';
+import GameLoop from './GameLoop';
+import { Collision } from './collision';
+
 /**
  * @property {GameObject[]} gameObjects
  * @property {boolean} isGameOver;
  * @property {GameLoop} _gameLoop
  * @property {Collision} _collision
+ * @property {Controls} _controls
  */
 class Game {
   /**
    * @param {GameLoop} gameLoop
    * @param {Collision} collision
+   * @param {Controls} controls
    */
-  constructor({ gameLoop, collision }) {
+  constructor({
+                gameLoop = new GameLoop(),
+                collision = new Collision(),
+                controls = new ProgrammaticControls(),
+              } = {}) {
     this._gameLoop = gameLoop;
     this._gameLoop.setGame(this);
     this._collision = collision;
+    this._controls = controls;
 
     this.gameObjects = [];
     this.isGameOver = false;
@@ -25,6 +36,9 @@ class Game {
     this._gameLoop.start();
   }
 
+  /**
+   * Reset the game to the starting position.
+   */
   reset() {
     this.gameObjects = [];
     this.isGameOver = false;
@@ -36,7 +50,7 @@ class Game {
   gameOver() {
     this.isGameOver = true;
 
-    alert('Game Over!');
+    // alert('Game Over!');
 
     this.start();
   }
@@ -49,6 +63,21 @@ class Game {
    */
   update(dt) {
     this._collision.detect(this.gameObjects);
+  }
+
+  /**
+   * Step function used to programmatically advance the game state.
+   *
+   * @param {number} action
+   */
+  step(action) {
+    if (this._controls instanceof ProgrammaticControls) {
+      this._controls.setAction(action);
+    }
+
+    this._gameLoop.advanceOneFrame();
+
+    return this.isGameOver;
   }
 }
 

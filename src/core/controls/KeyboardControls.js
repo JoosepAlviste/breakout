@@ -1,10 +1,10 @@
-import KEYS from '../core/utils/keys';
 import Controls from './Controls';
-import { NO_ACTION, LEFT, RIGHT } from '../config/actions';
 
 /**
  * Keyboard controls where pressing the left or right arrow keys triggers
  * movement.
+ *
+ * @abstract
  */
 class KeyboardControls extends Controls {
   constructor() {
@@ -15,16 +15,11 @@ class KeyboardControls extends Controls {
     this._registerListeners();
   }
 
-  makeMove() {
-    if (this._isKeyDown(KEYS.LEFT_ARROW)) {
-      return LEFT;
-    } else if (this._isKeyDown(KEYS.RIGHT_ARROW)) {
-      return RIGHT;
-    } else {
-      return NO_ACTION;
-    }
-  }
-
+  /**
+   * Register event listeners.
+   *
+   * @private
+   */
   _registerListeners() {
     window.addEventListener('keydown', e => {
       this.keys[e.keyCode] = true;
@@ -35,6 +30,15 @@ class KeyboardControls extends Controls {
     });
   }
 
+  /**
+   * Check if the key with the given key code is pressed down currently.
+   *
+   * @param {number} keyCode
+   *
+   * @returns {boolean}
+   *
+   * @protected
+   */
   _isKeyDown(keyCode) {
     return this.keys.hasOwnProperty(keyCode) ? this.keys[keyCode] : false;
   }

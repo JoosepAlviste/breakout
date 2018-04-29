@@ -3,7 +3,6 @@ import { canvas } from './core/utils/canvas';
 import { Ball, Paddle } from './gameObjects';
 import { BALL_RADIUS, PADDLE_HEIGHT } from './config';
 import { generateBricks } from './utils/brickCalculator';
-import ProgrammaticControls from './controls/ProgrammaticControls';
 
 /**
  * @property {GameObject[]} gameObjects
@@ -13,17 +12,6 @@ import ProgrammaticControls from './controls/ProgrammaticControls';
  * @property {Collision} _collision
  */
 class Breakout extends Game {
-  /**
-   * @param {GameLoop} gameLoop
-   * @param {Controls} controls
-   * @param {Collision} collision
-   */
-  constructor({ gameLoop, controls, collision }) {
-    super({ gameLoop, collision });
-
-    this._controls = controls;
-  }
-
   start() {
     this.reset();
 
@@ -46,21 +34,6 @@ class Breakout extends Game {
     }));
 
     generateBricks().forEach(brick => this.gameObjects.push(brick));
-  }
-
-  /**
-   * Step function used to programmatically advance the game state.
-   *
-   * @param {NO_ACTION|LEFT|RIGHT} action
-   */
-  step(action) {
-    if (this._controls instanceof ProgrammaticControls) {
-      this._controls.setAction(action);
-    }
-
-    this._gameLoop.advanceOneFrame();
-
-    return this.isGameOver;
   }
 }
 

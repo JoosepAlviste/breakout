@@ -1,8 +1,8 @@
 import { resizeCanvas } from './core/utils/canvas';
 import { GameLoop, Collision } from './core';
-import { KeyboardControls } from './controls';
+import { BreakoutKeyboardControls } from './controls';
 import Breakout from './Breakout';
-import ProgrammaticControls from './controls/ProgrammaticControls';
+import { ProgrammaticControls } from './core/controls';
 
 resizeCanvas();
 
@@ -10,9 +10,7 @@ function startKeyboardControlledGame() {
   // Keyboard controls can be switched with something like reinforcement learning
   // controls.
   const game = new Breakout({
-    gameLoop: new GameLoop(),
-    collision: new Collision(),
-    controls: new KeyboardControls(),
+    controls: new BreakoutKeyboardControls(),
   });
 
   game.start();
@@ -21,11 +19,7 @@ function startKeyboardControlledGame() {
 }
 
 function startProgrammaticControlledGame() {
-  const game = new Breakout({
-    gameLoop: new GameLoop(),
-    collision: new Collision(),
-    controls: new ProgrammaticControls(),
-  });
+  const game = new Breakout();
 
   game.reset();
 

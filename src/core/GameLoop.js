@@ -11,11 +11,14 @@ import { timestamp, calculateDeltaTime } from './utils/timestamp';
  * @property {Game} _game
  */
 class GameLoop {
-  constructor() {
+  /**
+   * @param {number} timeStep
+   */
+  constructor({ timeStep = 1 / 60 } = {}) {
     this._dt = 0;
     this._now = timestamp();
     this._last = this._now;
-    this._timeStep = 1 / 60;
+    this._timeStep = timeStep;
     this._game = null;
 
     this._frame = this._frame.bind(this);

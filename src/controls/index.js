@@ -1,7 +1,5 @@
-import Controls from './Controls';
-import KeyboardControls from './KeyboardControls';
+import BreakoutKeyboardControls from './BreakoutKeyboardControls';
 
 export {
-  Controls,
-  KeyboardControls,
+  BreakoutKeyboardControls,
 };
