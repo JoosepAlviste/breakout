@@ -9,11 +9,11 @@ const ctx = canvas.getContext('2d');
  * Source:
  * https://stackoverflow.com/questions/24395076/canvas-generated-by-canvg-is-blurry-on-retina-screen
  */
-const resizeCanvas = () => {
+const resizeCanvas = (width = 100, height = 100) => {
   const pixelRatio = window.devicePixelRatio || 1;
 
-  canvas.width = window.innerWidth;
-  canvas.height = window.innerHeight;
+  canvas.width = width;
+  canvas.height = height;
   canvas.style.width = `${canvas.width}px`;
   canvas.style.height = `${canvas.height}px`;
   canvas.width = canvas.width * pixelRatio;

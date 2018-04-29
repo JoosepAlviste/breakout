@@ -12,7 +12,7 @@ class Controls {
    * This could receive some game stats if needed later (for machine learning).
    * Also, after making a move, it could somehow receive a reward.
    *
-   * @returns {'LEFT'|'RIGHT'|null}
+   * @returns {NO_ACTION|LEFT|RIGHT}
    */
   makeMove() {
     throw new Error('makeMove not implemented!');

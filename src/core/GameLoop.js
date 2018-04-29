@@ -35,6 +35,12 @@ class GameLoop {
     this._game = game;
   }
 
+  advanceOneFrame() {
+    this._update(this._timeStep);
+
+    this._draw();
+  }
+
   /**
    * Trigger the update method on each game object. Also filters out all dead
    * game objects. Also triggers collision detection.

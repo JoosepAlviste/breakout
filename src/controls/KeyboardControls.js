@@ -1,5 +1,6 @@
 import KEYS from '../core/utils/keys';
 import Controls from './Controls';
+import { NO_ACTION, LEFT, RIGHT } from '../config/actions';
 
 /**
  * Keyboard controls where pressing the left or right arrow keys triggers
@@ -16,11 +17,11 @@ class KeyboardControls extends Controls {
 
   makeMove() {
     if (this._isKeyDown(KEYS.LEFT_ARROW)) {
-      return 'LEFT';
+      return LEFT;
     } else if (this._isKeyDown(KEYS.RIGHT_ARROW)) {
-      return 'RIGHT';
+      return RIGHT;
     } else {
-      return null;
+      return NO_ACTION;
     }
   }
 

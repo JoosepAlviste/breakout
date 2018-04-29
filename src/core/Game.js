@@ -22,10 +22,12 @@ class Game {
    * Start the game.
    */
   start() {
+    this._gameLoop.start();
+  }
+
+  reset() {
     this.gameObjects = [];
     this.isGameOver = false;
-
-    this._gameLoop.start();
   }
 
   /**
