@@ -1,9 +1,10 @@
 import { BreakoutKeyboardControls } from './breakout/controls';
-import { Breakout } from './breakout';
+import { Breakout, BreakoutSettings, actions } from './breakout';
 
 function startKeyboardControlledGame() {
   // To override settings we can pass in an instance of BreakoutSettings
-  // e.g. settings: new BreakoutSettings() and import from './breakout'.
+  // e.g. settings: new BreakoutSettings({ ballVelocity: 100 }) and import from
+  // './breakout'.
   const game = new Breakout({
     controls: new BreakoutKeyboardControls(),
   });
@@ -25,6 +26,8 @@ function startProgrammaticControlledGame() {
 }
 
 const game = startKeyboardControlledGame();
+
+// All available actions are here: actions.ACTIONS_LIST
 
 // const game = startProgrammaticControlledGame();
 // let moves = 0;
