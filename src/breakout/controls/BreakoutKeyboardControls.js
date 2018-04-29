@@ -1,6 +1,6 @@
-import { KeyboardControls } from '../core/controls';
-import KEYS from '../core/utils/keys';
-import { LEFT, NO_ACTION, RIGHT } from '../config/actions';
+import { KeyboardControls } from '../../core/controls/index';
+import KEYS from '../../core/utils/keys';
+import { LEFT, NO_ACTION, RIGHT } from '../actions';
 
 /**
  * Breakout keyboard controls.

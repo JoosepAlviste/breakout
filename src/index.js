@@ -1,14 +1,9 @@
-import { resizeCanvas } from './core/utils/canvas';
-import { GameLoop, Collision } from './core';
-import { BreakoutKeyboardControls } from './controls';
-import Breakout from './Breakout';
-import { ProgrammaticControls } from './core/controls';
-
-resizeCanvas();
+import { BreakoutKeyboardControls } from './breakout/controls';
+import { Breakout } from './breakout';
 
 function startKeyboardControlledGame() {
-  // Keyboard controls can be switched with something like reinforcement learning
-  // controls.
+  // To override settings we can pass in an instance of BreakoutSettings
+  // e.g. settings: new BreakoutSettings() and import from './breakout'.
   const game = new Breakout({
     controls: new BreakoutKeyboardControls(),
   });
@@ -18,6 +13,9 @@ function startKeyboardControlledGame() {
   return game;
 }
 
+/**
+ * @return {Breakout}
+ */
 function startProgrammaticControlledGame() {
   const game = new Breakout();
 
@@ -29,14 +27,23 @@ function startProgrammaticControlledGame() {
 const game = startKeyboardControlledGame();
 
 // const game = startProgrammaticControlledGame();
-// let test = 0;
-//
+// let moves = 0;
+
 // advance();
 //
 // function advance() {
 //   game.step(Math.floor(Math.random() * Math.floor(3)));
 //
-//   if (test < 100) {
+//   if (moves < 100) {
 //     window.requestAnimationFrame(advance);
+//     moves++;
 //   }
+// }
+
+// while (true) {
+//   const reward = game.step(Math.floor(Math.random() * Math.floor(3)));
+//
+//   console.log('reward', reward);
+//
+//   moves++;
 // }

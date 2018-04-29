@@ -1,14 +1,13 @@
-import { GameObject } from '../core';
-import { ctx, canvas } from '../core/utils/canvas';
-import { CircleCollider } from '../core/collision/colliders';
+import { GameObject } from '../../core/index';
+import { ctx, canvas } from '../../core/utils/canvas';
+import { CircleCollider } from '../../core/collision/colliders/index';
 import {
   calculateAdjacentSide,
   calculateOppositeSide,
   mirrorAngleHorizontally,
   mirrorAngleVertically,
-} from '../core/utils/trigonometry';
+} from '../../core/utils/trigonometry';
 import { primary, defaultColor } from '../config/colors';
-import { BALL_INITIAL_ANGLE, BALL_RADIUS, BALL_VELOCITY } from '../config';
 
 /**
  * @property {number} radius
@@ -26,14 +25,7 @@ class Ball extends GameObject {
    * @param {number} v
    * @param {number} angle
    */
-  constructor({
-                x,
-                y,
-                game,
-                radius = BALL_RADIUS,
-                v = BALL_VELOCITY,
-                angle = BALL_INITIAL_ANGLE,
-              }) {
+  constructor({ x, y, game, radius, v, angle }) {
     super({ x, y });
 
     this.radius = radius;

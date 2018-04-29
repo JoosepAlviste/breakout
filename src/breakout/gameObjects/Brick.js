@@ -1,6 +1,6 @@
-import { GameObject } from '../core';
-import { RectangleCollider } from '../core/collision/colliders';
-import { ctx } from '../core/utils/canvas';
+import { GameObject } from '../../core/index';
+import { RectangleCollider } from '../../core/collision/colliders/index';
+import { ctx } from '../../core/utils/canvas';
 import { defaultColor, primary } from '../config/colors';
 
 /**
