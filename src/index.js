@@ -1,13 +1,13 @@
 import { BreakoutKeyboardControls } from './breakout/controls';
 import { Breakout, BreakoutSettings, actions } from './breakout';
-import * as funcs from './learning';
+import funcs from './learning';
 window.funcs = funcs;
 
 //fills replay buffer with random actions
-funcs.init();
+//funcs.init();
 
 //renders memory (as neural net sees it)
-funcs.renderMemory(0,200);
+//funcs.renderMemory(0,200);
 
 
 // function startKeyboardControlledGame() {

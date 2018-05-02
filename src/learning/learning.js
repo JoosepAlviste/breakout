@@ -2,13 +2,17 @@ import { Breakout, BreakoutSettings } from '../breakout'
 import {canvas, ctx, resizeCanvas} from '../core/utils/canvas';
 import * as tf from '@tensorflow/tfjs';
 import ExperienceReplayBuffer from './memory';
-import getModel from './model';
+import {getModel,cloneModel} from './model';
 
-const memory_size = 1000;
+const memory_size = 100000;
 export const memory = new ExperienceReplayBuffer(memory_size);
-const model = getModel();
+export const model = getModel();
+export let lagged_model = getModel();
+cloneModel(lagged_model, model);
 
-function startProgrammaticControlledGame() {
+export const optimizer = tf.train.adam(1e-4);
+
+export function startProgrammaticControlledGame() {
   const game = new Breakout({
     settings: new BreakoutSettings({
       width: 28,
@@ -35,14 +39,14 @@ function startProgrammaticControlledGame() {
   return game;
 }
 
-function tensorifyMemory(mem){
-    return tf.stack(mem, 2).squeeze();
+export function tensorifyMemory(mem){
+    return tf.tidy(() => tf.stack(mem, 2).squeeze());
 }
 
-function getState(){
+export function getState(){
     const raw = ctx.getImageData(0,0,canvas.width,canvas.height);
-    //return tf.tidy(() => tf.fromPixels(raw,1).cast('float32').div(tf.scalar(255)));
-    return tf.tidy(() => tf.fromPixels(raw,1).cast('float32'));
+    return tf.tidy(() => tf.fromPixels(raw,1).cast('float32').div(tf.scalar(255)));
+    //return tf.tidy(() => tf.fromPixels(raw,1).cast('float32'));
 }
 
 window.ctx = ctx;
@@ -52,9 +56,10 @@ window.tf = tf;
 window.getState = getState;
 window.getAction = getAction;
 
-function getAction(state){
+export function getAction(current_state){
     return tf.tidy(() =>{
-        return model.predict(state.expandDims()).argMax(1);
+        const stacked_state = tensorifyMemory(memory.getCurrentState(current_state));
+        return model.predict(stacked_state.expandDims()).argMax(1);
     });
 }
 
@@ -73,9 +78,7 @@ export async function renderloop(iters, epsilon){
                 console.log(reward);
             }
         }else{
-            const q = tf.tidy(() => {
-                return getAction(tensorifyMemory(memory.getCurrentState(state)));
-            });
+            const q = getAction(state);
             const a = await q.data();
             q.dispose();
             action = a[0];
@@ -93,7 +96,7 @@ async function sleep(time) {
 }
 
 export const raw = ctx.getImageData(0,0,canvas.width,canvas.height);
-const g = startProgrammaticControlledGame();
+let g = startProgrammaticControlledGame();
 window.g = g;
 
 export async function loop(n) {
@@ -110,10 +113,18 @@ export function init(iters=memory_size){
         const action = Math.floor(Math.random()*3);
         const reward = g.step(action);
         memory.push({state: state, action: action, reward: reward});
+        if(i % 1000 == 0){
+            g = startProgrammaticControlledGame();
+        }
     }
     console.log("done");
 }
 
+export function renderCurrentState(){
+    const state = getState();
+    const stack = tensorifyMemory(memory.getCurrentState(state));
+    tf.toPixels(stack.cast('int32'), canvas);
+}
 
 export async function renderMemory(start,stop){
     for(var i = start; i < stop; i++){
@@ -122,3 +133,68 @@ export async function renderMemory(start,stop){
     }
 }
 
+
+export function doubleTrainOnBatch(){
+    const batch = memory.getBatch();
+    tf.tidy(() => {
+        const next_actions = model.predict(batch.next_states).argMax(1);
+        const next_action_mask = tf.oneHot(next_actions,3).cast('float32');
+        const next_q_values = lagged_model.predict(batch.next_states).mul(next_action_mask).sum(1);
+        
+        const target = next_q_values.mul(tf.scalar(0.99)).add(batch.rewards);
+        
+        const current_action_mask = tf.oneHot(batch.actions, 3).cast('float32');
+
+        optimizer.minimize(() => {
+            const current_q_values = model.predict(batch.states);
+            const q_values_of_actions_taken = current_q_values.mul(current_action_mask).sum(1);
+            return q_values_of_actions_taken.sub(target).square().mean();
+        });
+    });
+    batch.states.dispose();
+    batch.actions.dispose();
+    batch.next_states.dispose();
+    batch.rewards.dispose();
+}
+
+export async function train(iters,epsilon){
+    let totalreward = 0;
+
+    const start = performance.now();
+    for(var i = 0; i < iters; i++){
+        const state = getState();
+        let action = null;
+        
+        if(Math.random() < epsilon){
+            action = Math.floor(Math.random()*3);
+        }else{
+            const q = getAction(state);
+            const a = await q.data();
+            action = a[0];
+            q.dispose();
+        }
+        
+        const reward = g.step(action)
+        totalreward += reward
+        
+        memory.push({state: state, action: action, reward: reward});
+        
+        doubleTrainOnBatch();
+        
+        if(i % 1000 == 0){
+            g = startProgrammaticControlledGame();
+            console.log(i, "Reward: ", totalreward, tf.memory());
+            totalreward = 0;
+            cloneModel(lagged_model, model);
+        }
+        await sleep(1);
+    }
+    console.log((performance.now()-start)/1000);
+}
+
+export async function trainwrapper(){
+    console.log("initializing...");
+    init();
+    console.log("training...");
+    await train(30001, .1);
+}

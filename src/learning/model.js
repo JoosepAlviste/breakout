@@ -1,6 +1,6 @@
 import * as tf from '@tensorflow/tfjs';
 
-export default function getModel(){
+export function getModel(){
     return tf.sequential({
         layers: [
             tf.layers.zeroPadding2d({
@@ -39,4 +39,12 @@ export default function getModel(){
             })
         ]
     });
+}
+
+export function cloneModel(m, modelToCopy){
+    for(var i = 0; i < modelToCopy.weights.length; i++){
+        m.weights[i].val.dispose();
+        m.weights[i].val = tf.clone(modelToCopy.weights[i].val);
+    }
+    return m;
 }

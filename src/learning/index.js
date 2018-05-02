@@ -1,2 +1,2 @@
-import {raw,loop,renderloop,memory,renderMemory, init} from './learning';
-export {raw,loop,renderloop,memory,renderMemory, init};
+import * as funcs from './learning';
+export default funcs;
