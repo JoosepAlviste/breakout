@@ -103,7 +103,7 @@ export async function loop(n) {
     }
 }
 
-function init(iters=memory_size){
+export function init(iters=memory_size){
     g.step(0);
     for(var i = 0; i < iters; i++){
         const state = getState();
@@ -121,5 +121,4 @@ export async function renderMemory(start,stop){
         tf.toPixels(tensorifyMemory(memory.getMemory(i,3)).cast('int32'), canvas);
     }
 }
-init();
-renderMemory(0,200);
+
