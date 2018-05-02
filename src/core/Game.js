@@ -11,6 +11,7 @@ import { resizeCanvas } from './utils/canvas';
  * @property {Collision} _collision
  * @property {Controls} _controls
  * @property {Settings} _settings
+ * @property {number} _reward
  */
 class Game {
   /**
@@ -33,6 +34,7 @@ class Game {
 
     this.gameObjects = [];
     this.isGameOver = false;
+    this._reward = 0;
 
     resizeCanvas(settings.width, settings.height);
   }
@@ -50,6 +52,7 @@ class Game {
   reset() {
     this.gameObjects = [];
     this.isGameOver = false;
+    this._reward = 0;
   }
 
   /**
@@ -58,9 +61,9 @@ class Game {
   gameOver() {
     this.isGameOver = true;
 
-    // alert('Game Over!');
-
     this.reset();
+
+    this.increaseReward(-1);
   }
 
   /**
@@ -82,13 +85,24 @@ class Game {
    * @return {number} - reward
    */
   step(action) {
+    this._reward = 0;
+
     if (this._controls instanceof ProgrammaticControls) {
       this._controls.setAction(action);
     }
 
     this._gameLoop.advanceOneFrame();
 
-    return this.isGameOver ? -100 : 0;
+    return this._reward;
+  }
+
+  /**
+   * Increase the reward gained for the current frame.
+   *
+   * @param {number} amount
+   */
+  increaseReward(amount) {
+    this._reward += amount;
   }
 }
 
