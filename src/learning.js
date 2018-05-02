@@ -9,6 +9,8 @@ function startProgrammaticControlledGame() {
       brickHeight: 1,
       brickColumnCount: 3,
       brickRowCount: 2,
+      brickOffsetLeft: 2,
+      brickOffsetTop: 2,
 
       paddleHeight: 1,
       paddleWidth: 4,
