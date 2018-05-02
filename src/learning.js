@@ -75,21 +75,25 @@ function startProgrammaticControlledGame() {
 
 function getState(){
     const raw = ctx.getImageData(0,0,canvas.width,canvas.height);
-    return tf.tidy(() => tf.fromPixels(raw,1).cast('float32').div(tf.scalar(255)));
+    //return tf.tidy(() => tf.fromPixels(raw,1).cast('float32').div(tf.scalar(255)));
+    return tf.tidy(() => tf.fromPixels(raw,1).cast('float32'));
 }
 
 window.ctx = ctx;
 window.canvas = canvas;
 window.model = model;
 window.tf = tf;
+window.getState = getState;
+window.getAction = getAction;
 
 function getAction(state){
     return tf.tidy(() =>{
-        return model.predict(state.expandDims()).argMax(axis=1);
+        return model.predict(state.expandDims()).argMax(1);
     });
 }
 
 export async function renderloop(iters, epsilon){
+    let r = 0;
     for(var i = 0; i < iters; i++){
         await sleep(30);
         
@@ -110,7 +114,6 @@ export async function renderloop(iters, epsilon){
             }
         }
     }
-    g.render();
 }
 
 async function sleep(time) {

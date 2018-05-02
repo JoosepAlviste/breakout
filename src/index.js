@@ -1,8 +1,9 @@
 import { BreakoutKeyboardControls } from './breakout/controls';
 import { Breakout, BreakoutSettings, actions } from './breakout';
-import {raw,renderloop} from './learning';
+import {raw,loop,renderloop} from './learning';
 
-renderloop(1000, 0.1);
+//renderloop(1000, 0);
+//loop(100);
 window.raw = raw;
 
 // function startKeyboardControlledGame() {
