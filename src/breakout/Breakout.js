@@ -37,7 +37,7 @@ class Breakout extends Game {
 
     this.gameObjects.push(new Ball({
       x: (canvas.clientWidth + ballRadius) / 2,
-      y: canvas.clientHeight - ballRadius - paddleHeight,
+      y: canvas.clientHeight - ballRadius - paddleHeight - 1,
       game: this,
       radius: ballRadius,
       v: ballVelocity,

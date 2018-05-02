@@ -3,7 +3,6 @@ import { Breakout, BreakoutSettings, actions } from './breakout';
 import loop from './learning';
 
 loop(100);
-
 // function startKeyboardControlledGame() {
 //   // To override settings we can pass in an instance of BreakoutSettings
 //   // e.g. settings: new BreakoutSettings({ ballVelocity: 100 }) and import from
