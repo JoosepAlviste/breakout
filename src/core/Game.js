@@ -60,7 +60,7 @@ class Game {
 
     // alert('Game Over!');
 
-    this.start();
+    this.reset();
   }
 
   /**
