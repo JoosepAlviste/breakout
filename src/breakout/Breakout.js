@@ -11,6 +11,7 @@ import BreakoutSettings from './BreakoutSettings';
  * @property {GameLoop} _gameLoop
  * @property {Collision} _collision
  * @property {BreakoutSettings} _settings
+ * @property {number} _reward
  */
 class Breakout extends Game {
   constructor({ settings = new BreakoutSettings(), ...rest } = {}) {
