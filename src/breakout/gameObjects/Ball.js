@@ -108,7 +108,7 @@ class Ball extends GameObject {
         // TODO: Came from bot left, hit bot right corner?
       }
 
-      this._game.increaseReward(1);
+      // this._game.increaseReward(1);
 
       brick.die();
     }
