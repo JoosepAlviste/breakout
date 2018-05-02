@@ -1,10 +1,11 @@
 import { BreakoutKeyboardControls } from './breakout/controls';
 import { Breakout, BreakoutSettings, actions } from './breakout';
-import {raw,loop,renderloop} from './learning';
+import * as funcs from './learning';
+window.funcs = funcs;
 
 //renderloop(1000, 0);
 //loop(100);
-window.raw = raw;
+
 
 // function startKeyboardControlledGame() {
 //   // To override settings we can pass in an instance of BreakoutSettings
