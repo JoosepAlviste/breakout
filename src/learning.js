@@ -13,12 +13,12 @@ function startProgrammaticControlledGame() {
       brickOffsetLeft: 2,
       brickOffsetTop: 2,
 
-      paddleHeight: 1,
-      paddleWidth: 4,
-      paddleVelocity: 200,
+      paddleHeight: 2,
+      paddleWidth: 5,
+      paddleVelocity: 150,
 
       ballRadius: 0.5,
-      ballVelocity: 150,
+      ballVelocity: 100,
       ballInitialAngle: Math.random()*(2.35-0.785) + 0.785
     }),
   });
