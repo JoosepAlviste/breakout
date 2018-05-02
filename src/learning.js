@@ -1,4 +1,5 @@
 import { Breakout, BreakoutSettings } from './breakout'
+import {canvas, ctx, resizeCanvas} from './core/utils/canvas';
 
 function startProgrammaticControlledGame() {
   const game = new Breakout();
@@ -12,18 +13,11 @@ async function sleep(time) {
   return new Promise(resolve => setTimeout(resolve, time));
 }
 
-export default async function loop(n) {
+export const raw = ctx.getImageData(0,0,canvas.width,canvas.height);
+
+export async function loop(n) {
   const g = startProgrammaticControlledGame();
   window.g = g;
-
-  // const game = new Breakout({
-  //   settings: new BreakoutSettings({
-  //     ballVelocity: 200,
-  //     paddleVelocity: 250,
-  //   }),
-  // });
-  //
-  // window.game = game;
 
   for (let i = 0; i < n; i++) {
     await sleep(10);
