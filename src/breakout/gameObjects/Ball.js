@@ -43,11 +43,6 @@ class Ball extends GameObject {
     let dx = calculateAdjacentSide({ angle: this.angle, hypotenuse: v }) * dt;
     let dy = -calculateOppositeSide({ angle: this.angle, hypotenuse: v }) * dt;
 
-    // Collision with the floor - GameLoop Over
-    if (y + dy > canvas.clientHeight - radius) {
-      this._game.gameOver();
-    }
-
     // Collision with the Paddle
     if (this.collider.collidesWith('Paddle')) {
       this.angle = mirrorAngleVertically(this.angle);
@@ -69,6 +64,11 @@ class Ball extends GameObject {
     // Recalculate the changes because we might have changed something (angle)
     dx = calculateAdjacentSide({ angle: this.angle, hypotenuse: v }) * dt;
     dy = -calculateOppositeSide({ angle: this.angle, hypotenuse: v }) * dt;
+
+    // Collision with the floor - GameLoop Over
+    if (y + dy > canvas.clientHeight - radius) {
+      this._game.gameOver();
+    }
 
     this.x = x + dx;
     this.y = y + dy;

@@ -47,28 +47,30 @@ function getModel(){
 const model = getModel();
 
 function startProgrammaticControlledGame() {
-    const game = new Breakout({
-        settings: new BreakoutSettings({
-            width: 28,
-            height: 28,
-            
-            brickHeight: 1,
-            brickColumnCount: 3,
-            brickRowCount: 2,
+  const game = new Breakout({
+    settings: new BreakoutSettings({
+      width: 28,
+      height: 28,
 
-            paddleHeight: 2,
-            paddleWidth: 5,
-            paddleVelocity: 100,
+      brickHeight: 1,
+      brickColumnCount: 3,
+      brickRowCount: 2,
+      brickOffsetLeft: 2,
+      brickOffsetTop: 2,
 
-            ballRadius: 0.5,
-            ballVelocity: 100,
-            ballInitialAngle: Math.random()*(2.35-0.785) + 0.785
-        }),
-    });
+      paddleHeight: 2,
+      paddleWidth: 5,
+      paddleVelocity: 150,
 
-    game.reset();
+      ballRadius: 0.5,
+      ballVelocity: 100,
+      ballInitialAngle: Math.random()*(2.35-0.785) + 0.785
+    }),
+  });
 
-    return game;
+  game.reset();
+
+  return game;
 }
 
 function getState(){
