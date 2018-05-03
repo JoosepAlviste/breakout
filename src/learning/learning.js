@@ -193,6 +193,8 @@ export async function train(iters,epsilon){
 }
 
 export async function trainwrapper(){
+    window.g = startProgrammaticControlledGame();
+
     console.log("initializing...");
     init();
     console.log("training...");

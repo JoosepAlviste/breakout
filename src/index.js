@@ -10,24 +10,26 @@ window.funcs = funcs;
 //funcs.renderMemory(0,200);
 
 
-// function startKeyboardControlledGame() {
-//   // To override settings we can pass in an instance of BreakoutSettings
-//   // e.g. settings: new BreakoutSettings({ ballVelocity: 100 }) and import from
-//   // './breakout'.
-//   const game = new Breakout({
-//     controls: new BreakoutKeyboardControls(),
-//     settings: new BreakoutSettings({
-//       brickRowCount: 1,
-//       brickColumnCount: 1,
-//     }),
-//   });
-//
-//   game.start();
-//
-//   return game;
-// }
-// const game = startKeyboardControlledGame();
-// window.game = game;
+function startKeyboardControlledGame() {
+  // To override settings we can pass in an instance of BreakoutSettings
+  // e.g. settings: new BreakoutSettings({ ballVelocity: 100 }) and import from
+  // './breakout'.
+  const game = new Breakout({
+    controls: new BreakoutKeyboardControls(),
+  });
+
+  game.start();
+
+  return game;
+}
+
+document.querySelector('#js-keyboard-button').addEventListener('click', () => {
+  startKeyboardControlledGame();
+});
+
+document.querySelector('#js-training-button').addEventListener('click', () => {
+  funcs.trainwrapper();
+})
 
 //
 // /**
