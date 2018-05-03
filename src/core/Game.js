@@ -74,6 +74,10 @@ class Game {
    */
   update(dt) {
     this._collision.detect(this.gameObjects);
+
+    if (this.isWon()) {
+      this.handleWin();
+    }
   }
 
   /**
@@ -103,6 +107,27 @@ class Game {
    */
   increaseReward(amount) {
     this._reward += amount;
+  }
+
+  /**
+   * Check if the currently active game has been won.
+   *
+   * @return {boolean}
+   */
+  isWon() {
+    return false;
+  }
+
+  /**
+   * Handle the winning of the game. Will just reset the game for now, if more
+   * functionality is needed, it can be overridden.
+   */
+  handleWin() {
+    this.reset();
+
+    if (!this._controls instanceof ProgrammaticControls) {
+      this.start();
+    }
   }
 }
 

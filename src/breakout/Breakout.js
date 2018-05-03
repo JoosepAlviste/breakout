@@ -1,6 +1,6 @@
 import { Game } from '../core/index';
 import { canvas } from '../core/utils/canvas';
-import { Ball, Paddle } from './gameObjects';
+import { Ball, Paddle, Brick } from './gameObjects';
 import { generateBricks } from './utils/brickCalculator';
 import BreakoutSettings from './BreakoutSettings';
 
@@ -55,6 +55,11 @@ class Breakout extends Game {
     }));
 
     generateBricks({ ...this._settings }).forEach(brick => this.gameObjects.push(brick));
+  }
+
+  isWon() {
+    return this.gameObjects.filter(object => object instanceof Brick)
+      .length === 0;
   }
 }
 

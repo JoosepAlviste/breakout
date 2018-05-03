@@ -16,12 +16,19 @@ window.funcs = funcs;
 //   // './breakout'.
 //   const game = new Breakout({
 //     controls: new BreakoutKeyboardControls(),
+//     settings: new BreakoutSettings({
+//       brickRowCount: 1,
+//       brickColumnCount: 1,
+//     }),
 //   });
 //
 //   game.start();
 //
 //   return game;
 // }
+// const game = startKeyboardControlledGame();
+// window.game = game;
+
 //
 // /**
 //  * @return {Breakout}
@@ -34,7 +41,6 @@ window.funcs = funcs;
 //   return game;
 // }
 //
-// // const game = startKeyboardControlledGame();
 //
 // // All available actions are here: actions.ACTIONS_LIST
 //
