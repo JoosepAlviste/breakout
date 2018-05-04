@@ -1,5 +1,10 @@
 import { BreakoutKeyboardControls } from './breakout/controls';
 import { Breakout, BreakoutSettings, actions } from './breakout';
+
+import FlappyKeyboardControls from './flappybird/FlappyKeyboardControls';
+import { Flappy, FlappySettings} from './flappybird';
+
+
 import funcs from './learning';
 window.funcs = funcs;
 
@@ -9,8 +14,8 @@ window.funcs = funcs;
 //renders memory (as neural net sees it)
 //funcs.renderMemory(0,200);
 
-
 function startKeyboardControlledGame() {
+    
   // To override settings we can pass in an instance of BreakoutSettings
   // e.g. settings: new BreakoutSettings({ ballVelocity: 100 }) and import from
   // './breakout'.
@@ -23,6 +28,21 @@ function startKeyboardControlledGame() {
   return game;
 }
 
+/*
+function startKeyboardControlledGame() {
+    
+  // To override settings we can pass in an instance of BreakoutSettings
+  // e.g. settings: new BreakoutSettings({ ballVelocity: 100 }) and import from
+  // './breakout'.
+  const game = new Flappy({
+    controls: new FlappyKeyboardControls(),
+  });
+
+  game.start();
+
+  return game;
+}
+*/
 document.querySelector('#js-keyboard-button').addEventListener('click', () => {
   startKeyboardControlledGame();
 });

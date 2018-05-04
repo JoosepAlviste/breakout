@@ -58,13 +58,13 @@ class Paddle extends GameObject {
     this.collider.update({ x: this.x });
   }
 
-  draw() {
-    const { x, y, _width, _height } = this;
+    draw() {
+        const { x, y, _width, _height } = this;
 
-    ctx.fillStyle = primary;
-    ctx.fillRect(x, y, _width, _height);
-    ctx.fillStyle = defaultColor;
-  }
+        ctx.fillStyle = primary;
+        ctx.fillRect(x, y, _width, _height);
+        ctx.fillStyle = defaultColor;
+    }
 }
 
 export default Paddle;

@@ -1,6 +1,6 @@
 import * as tf from '@tensorflow/tfjs';
 
-export function getModel(){
+export function getModel(num_actions){
     return tf.sequential({
         layers: [
             tf.layers.zeroPadding2d({
@@ -33,7 +33,7 @@ export function getModel(){
                 activation: 'relu'
             }),
             tf.layers.dense({
-                units: 3,
+                units: num_actions,
                 kernelInitializer: 'varianceScaling',
                 activation: 'linear'
             })

@@ -1,16 +1,20 @@
-import { Breakout, BreakoutSettings } from '../breakout'
+import { Breakout, BreakoutSettings, actions } from '../breakout'
+//import { Flappy, FlappySettings, actions} from '../flappybird';
+
 import {canvas, ctx, resizeCanvas} from '../core/utils/canvas';
 import * as tf from '@tensorflow/tfjs';
 import ExperienceReplayBuffer from './memory';
 import {getModel,cloneModel} from './model';
 
+const num_actions = actions.ACTIONS_LIST.length;
 const memory_size = 100000;
 export const memory = new ExperienceReplayBuffer(memory_size);
-export const model = getModel();
-export let lagged_model = getModel();
+export const model = getModel(num_actions);
+export let lagged_model = getModel(num_actions);
 cloneModel(lagged_model, model);
 
 export const optimizer = tf.train.adam(1e-4);
+
 
 export function startProgrammaticControlledGame() {
   const game = new Breakout({
@@ -38,6 +42,14 @@ export function startProgrammaticControlledGame() {
 
   return game;
 }
+
+/*
+export function startProgrammaticControlledGame() {
+    const game = new Flappy();
+    game.reset();
+    return game;
+}
+*/
 
 export function tensorifyMemory(mem){
     return tf.tidy(() => tf.stack(mem, 2).squeeze());
@@ -72,7 +84,7 @@ export async function renderloop(iters, epsilon){
         await sleep(30);
         state = getState();
         if(Math.random() < epsilon){
-            action = Math.floor(Math.random()*3);
+            action = Math.floor(Math.random()*num_actions);
             reward = g.step(action);
             if(reward != 0){
                 console.log(reward);
@@ -102,7 +114,7 @@ window.g = g;
 export async function loop(n) {
     for (let i = 0; i < n; i++) {
         await sleep(10);
-        g.step(Math.floor(Math.random() * 3));
+        g.step(Math.floor(Math.random() * num_actions));
     }
 }
 
@@ -110,7 +122,7 @@ export function init(iters=memory_size){
     g.step(0);
     for(var i = 0; i < iters; i++){
         const state = getState();
-        const action = Math.floor(Math.random()*3);
+        const action = Math.floor(Math.random()*num_actions);
         const reward = g.step(action);
         memory.push({state: state, action: action, reward: reward});
         if(i % 1000 == 0){
@@ -138,12 +150,12 @@ export function doubleTrainOnBatch(){
     const batch = memory.getBatch();
     tf.tidy(() => {
         const next_actions = model.predict(batch.next_states).argMax(1);
-        const next_action_mask = tf.oneHot(next_actions,3).cast('float32');
+        const next_action_mask = tf.oneHot(next_actions, num_actions).cast('float32');
         const next_q_values = lagged_model.predict(batch.next_states).mul(next_action_mask).sum(1);
         
         const target = next_q_values.mul(tf.scalar(0.99)).add(batch.rewards);
         
-        const current_action_mask = tf.oneHot(batch.actions, 3).cast('float32');
+        const current_action_mask = tf.oneHot(batch.actions, num_actions).cast('float32');
 
         optimizer.minimize(() => {
             const current_q_values = model.predict(batch.states);
@@ -166,7 +178,7 @@ export async function train(iters,epsilon){
         let action = null;
         
         if(Math.random() < epsilon){
-            action = Math.floor(Math.random()*3);
+            action = Math.floor(Math.random()*num_actions);
         }else{
             const q = getAction(state);
             const a = await q.data();
@@ -194,7 +206,6 @@ export async function train(iters,epsilon){
 
 export async function trainwrapper(){
     window.g = startProgrammaticControlledGame();
-
     console.log("initializing...");
     init();
     console.log("training...");
