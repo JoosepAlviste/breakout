@@ -21,6 +21,12 @@ function startKeyboardControlledGame() {
   // './breakout'.
   const game = new Breakout({
     controls: new BreakoutKeyboardControls(),
+    settings: new BreakoutSettings({
+      brickPadding: 0,
+      brickOffsetLeft: 0,
+      brickColumnCount: 9,
+      brickRowCount: 4,
+    }),
   });
 
   game.start();

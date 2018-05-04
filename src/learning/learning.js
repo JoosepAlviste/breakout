@@ -23,9 +23,10 @@ export function startProgrammaticControlledGame() {
       height: 28,
 
       brickHeight: 1,
-      brickColumnCount: 3,
-      brickRowCount: 2,
-      brickOffsetLeft: 2,
+      brickColumnCount: 5,
+      brickRowCount: 3,
+      brickOffsetLeft: 0,
+      brickPadding: 0,
       brickOffsetTop: 2,
 
       paddleHeight: 2,

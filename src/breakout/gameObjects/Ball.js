@@ -43,14 +43,7 @@ class Ball extends GameObject {
     let dx = calculateAdjacentSide({ angle: this.angle, hypotenuse: v }) * dt;
     let dy = -calculateOppositeSide({ angle: this.angle, hypotenuse: v }) * dt;
 
-    // Collision with the Paddle
-    if (this.collider.collidesWith('Paddle')) {
-      this.angle = mirrorAngleVertically(this.angle);
-
-      // TODO: What if it hits the corner/side?
-      // TODO: Different angle depending on the paddle position
-    }
-
+    this._checkPaddleCollision();
     this._checkBrickCollision();
 
     // Bounce off of walls
@@ -111,6 +104,28 @@ class Ball extends GameObject {
       // this._game.increaseReward(1);
 
       brick.die();
+    }
+  }
+
+  /**
+   * Check for collision with the Paddle.
+   *
+   * @private
+   */
+  _checkPaddleCollision() {
+    if (this.collider.collidesWith('Paddle')) {
+      const paddle = this.collider.getCollisionWith('Paddle');
+      const hitPositionOnPaddle = Math.max(this.x - paddle.x, 0);
+      const percent = 1 - hitPositionOnPaddle / paddle._width;
+      // Flip the percent (1 - ...) so that the left is max and right is min
+
+      const maxAngle = Math.PI - Math.PI / 8;
+      const minAngle = Math.PI / 8;
+
+      this.angle = percent * maxAngle + minAngle;
+
+      // TODO: What if it hits the corner/side?
+      // TODO: Different angle depending on the paddle position
     }
   }
 }

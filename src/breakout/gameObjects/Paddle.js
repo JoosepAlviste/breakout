@@ -13,7 +13,8 @@ import { LEFT, RIGHT } from '../actions';
  * @property {number} _width
  * @property {number} _height
  */
-class Paddle extends GameObject {
+class
+Paddle extends GameObject {
 
   /**
    * @param {number} x
