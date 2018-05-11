@@ -129,6 +129,9 @@ export function init(iters=memory_size){
         if(i % 1000 == 0){
             g = startProgrammaticControlledGame();
         }
+        if(i % 10000 == 0){
+            console.log("Init: ", (i/iters)*100, "%");
+        }
     }
     console.log("done");
 }
@@ -170,6 +173,8 @@ export function doubleTrainOnBatch(){
     batch.rewards.dispose();
 }
 
+export let reward_arr = [];
+
 export async function train(iters,epsilon){
     let totalreward = 0;
 
@@ -196,7 +201,9 @@ export async function train(iters,epsilon){
         
         if(i % 1000 == 0){
             g = startProgrammaticControlledGame();
-            console.log(i, "Reward: ", totalreward, tf.memory());
+            reward_arr.push(totalreward);
+            console.log("Progress: ", (i/iters)*100, "%", "Reward: ", totalreward);
+            console.log(reward_arr);
             totalreward = 0;
             cloneModel(lagged_model, model);
         }

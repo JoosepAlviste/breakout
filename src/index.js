@@ -8,6 +8,9 @@ import { Flappy, FlappySettings} from './flappybird';
 import funcs from './learning';
 window.funcs = funcs;
 
+
+console.log(funcs.reward_arr);
+
 //fills replay buffer with random actions
 //funcs.init();
 
