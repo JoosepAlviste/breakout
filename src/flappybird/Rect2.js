@@ -11,7 +11,7 @@ import { RectangleCollider } from '../core/collision/colliders/index';
  * @property {number} _height
  * @property {number} velocity
  */
-class Rect extends GameObject {
+class Rect2 extends GameObject {
 
     /**
      * @param {number} x
@@ -20,7 +20,7 @@ class Rect extends GameObject {
      * @param {number} height
      * @param {number} v
      */
-    constructor({ x, y, width, height, v, game }) {
+    constructor({ x, y, width, height, v, openingSize, game }) {
         super({ x, y });
 
         this._width = width;
@@ -30,6 +30,7 @@ class Rect extends GameObject {
         this.x = x;
         this.y = y;
         this._game = game;
+        this.openingSize = openingSize;
 
         this.collider = new RectangleCollider({
             x: this.x,
@@ -46,12 +47,10 @@ class Rect extends GameObject {
         this.x -= vy;
 
         if(this.x + this._width < 0){
-            this._game.resetOpening();
             this.x = canvas.clientWidth;
-            this.y = 0;
-            this._height = this._game.opening;
+            this.y = this._game.opening + this.openingSize;
         }
-        this.collider.update({ x: this.x, y: this.y, height: this._height });
+        this.collider.update({ x: this.x, y: this.y});
     }
 
     draw() {
@@ -62,4 +61,4 @@ class Rect extends GameObject {
     }
 }
 
-export default Rect;
+export default Rect2;

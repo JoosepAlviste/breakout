@@ -1,5 +1,5 @@
-import { Breakout, BreakoutSettings, actions } from '../breakout'
-//import { Flappy, FlappySettings, actions} from '../flappybird';
+//import { Breakout, BreakoutSettings, actions } from '../breakout'
+import { Flappy, FlappySettings, actions} from '../flappybird';
 
 import {canvas, ctx, resizeCanvas} from '../core/utils/canvas';
 import * as tf from '@tensorflow/tfjs';
@@ -15,7 +15,7 @@ cloneModel(lagged_model, model);
 
 export const optimizer = tf.train.adam(1e-4);
 
-
+/*
 export function startProgrammaticControlledGame() {
   const game = new Breakout({
     settings: new BreakoutSettings({
@@ -30,11 +30,11 @@ export function startProgrammaticControlledGame() {
       brickOffsetTop: 2,
 
       paddleHeight: 2,
-      paddleWidth: 5,
-      paddleVelocity: 150,
+      paddleWidth: 7,
+      paddleVelocity: 70,
 
-      ballRadius: 0.5,
-      ballVelocity: 100,
+      ballRadius: 0.6,
+      ballVelocity: 80,
       ballInitialAngle: Math.random()*(2.35-0.785) + 0.785,
     }),
   });
@@ -43,14 +43,14 @@ export function startProgrammaticControlledGame() {
 
   return game;
 }
+*/
 
-/*
 export function startProgrammaticControlledGame() {
     const game = new Flappy();
     game.reset();
     return game;
 }
-*/
+
 
 export function tensorifyMemory(mem){
     return tf.tidy(() => tf.stack(mem, 2).squeeze());
@@ -207,8 +207,9 @@ export async function train(iters,epsilon){
 
 export async function trainwrapper(){
     window.g = startProgrammaticControlledGame();
+    console.log(num_actions);
     console.log("initializing...");
     init();
     console.log("training...");
-    await train(30001, .1);
+    await train(50001, .1);
 }

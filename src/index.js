@@ -14,18 +14,29 @@ window.funcs = funcs;
 //renders memory (as neural net sees it)
 //funcs.renderMemory(0,200);
 
+/*
 function startKeyboardControlledGame() {
     
-  // To override settings we can pass in an instance of BreakoutSettings
-  // e.g. settings: new BreakoutSettings({ ballVelocity: 100 }) and import from
-  // './breakout'.
-  const game = new Breakout({
-    controls: new BreakoutKeyboardControls(),
-    settings: new BreakoutSettings({
-      brickPadding: 0,
-      brickOffsetLeft: 0,
-      brickColumnCount: 9,
-      brickRowCount: 4,
+    // To override settings we can pass in an instance of BreakoutSettings
+    // e.g. settings: new BreakoutSettings({ ballVelocity: 100 }) and import from
+    // './breakout'.
+    const game = new Breakout({
+        controls: new BreakoutKeyboardControls(),
+        settings: new BreakoutSettings({
+            ballRadius: 1,
+            ballVelocity: 50,
+            ballInitialAngle: Math.PI / 4,
+
+            brickRowCount: 3,
+            brickColumnCount: 5,
+            brickHeight: 3,
+            brickPadding: 2,
+            brickOffsetTop: 3,
+            brickOffsetLeft: 3,
+
+            paddleWidth: 15,
+            paddleHeight: 2,
+            paddleVelocity: 100,
     }),
   });
 
@@ -33,8 +44,8 @@ function startKeyboardControlledGame() {
 
   return game;
 }
+*/
 
-/*
 function startKeyboardControlledGame() {
     
   // To override settings we can pass in an instance of BreakoutSettings
@@ -48,7 +59,8 @@ function startKeyboardControlledGame() {
 
   return game;
 }
-*/
+
+
 document.querySelector('#js-keyboard-button').addEventListener('click', () => {
   startKeyboardControlledGame();
 });

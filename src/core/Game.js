@@ -73,11 +73,11 @@ class Game {
    * @param {number} dt
    */
   update(dt) {
-    this._collision.detect(this.gameObjects);
+      this._collision.detect(this.gameObjects);
 
-    if (this.isWon()) {
-      this.handleWin();
-    }
+      if (this.isWon()) {
+          this.handleWin();
+      }
   }
 
   /**
