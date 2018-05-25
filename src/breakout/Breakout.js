@@ -61,6 +61,12 @@ class Breakout extends Game {
     return this.gameObjects.filter(object => object instanceof Brick)
       .length === 0;
   }
+
+  handleWin() {
+    this.increaseReward(1);
+
+    super.handleWin();
+  }
 }
 
 export default Breakout;

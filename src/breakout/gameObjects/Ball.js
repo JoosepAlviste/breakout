@@ -101,7 +101,7 @@ class Ball extends GameObject {
         // TODO: Came from bot left, hit bot right corner?
       }
 
-      this._game.increaseReward(.1);
+      this._game.increaseReward(.05);
 
       brick.die();
     }
@@ -115,14 +115,14 @@ class Ball extends GameObject {
   _checkPaddleCollision() {
     if (this.collider.collidesWith('Paddle')) {
       const paddle = this.collider.getCollisionWith('Paddle');
-      const hitPositionOnPaddle = Math.max(this.x - paddle.x, 0);
-      const percent = 1 - hitPositionOnPaddle / paddle._width;
+      const hitPositionOnPaddle = Math.min(Math.max(this.x - paddle.x, 0), paddle._width);
+      const percent = Math.max(1 - hitPositionOnPaddle / paddle._width, 0);
       // Flip the percent (1 - ...) so that the left is max and right is min
 
-      const maxAngle = Math.PI - Math.PI / 8;
-      const minAngle = Math.PI / 8;
+      const minAngle = Math.PI / 6;
+      const maxAngle = Math.PI - minAngle;
 
-      this.angle = percent * maxAngle + minAngle;
+      this.angle = percent * (maxAngle - minAngle) + minAngle;
 
       // TODO: What if it hits the corner/side?
       // TODO: Different angle depending on the paddle position

@@ -17,7 +17,6 @@ console.log(funcs.reward_arr);
 //renders memory (as neural net sees it)
 //funcs.renderMemory(0,200);
 
-/*
 function startKeyboardControlledGame() {
     
     // To override settings we can pass in an instance of BreakoutSettings
@@ -26,20 +25,22 @@ function startKeyboardControlledGame() {
     const game = new Breakout({
         controls: new BreakoutKeyboardControls(),
         settings: new BreakoutSettings({
-            ballRadius: 1,
-            ballVelocity: 50,
-            ballInitialAngle: Math.PI / 4,
+      width: 28,
+      height: 28,
 
-            brickRowCount: 3,
-            brickColumnCount: 5,
-            brickHeight: 3,
-            brickPadding: 2,
-            brickOffsetTop: 3,
-            brickOffsetLeft: 3,
+      brickHeight: 1,
+      brickColumnCount: 5,
+      brickRowCount: 3,
+      brickOffsetLeft: 0,
+      brickPadding: 0,
+      brickOffsetTop: 2,
 
-            paddleWidth: 15,
-            paddleHeight: 2,
-            paddleVelocity: 100,
+      paddleHeight: 2,
+      paddleWidth: 9,
+      paddleVelocity: 50,
+
+      ballRadius: 0.6,
+      ballVelocity: 50,
     }),
   });
 
@@ -47,21 +48,20 @@ function startKeyboardControlledGame() {
 
   return game;
 }
-*/
 
-function startKeyboardControlledGame() {
+// function startKeyboardControlledGame() {
     
-  // To override settings we can pass in an instance of BreakoutSettings
-  // e.g. settings: new BreakoutSettings({ ballVelocity: 100 }) and import from
-  // './breakout'.
-  const game = new Flappy({
-    controls: new FlappyKeyboardControls(),
-  });
+//   // To override settings we can pass in an instance of BreakoutSettings
+//   // e.g. settings: new BreakoutSettings({ ballVelocity: 100 }) and import from
+//   // './breakout'.
+//   const game = new Flappy({
+//     controls: new FlappyKeyboardControls(),
+//   });
 
-  game.start();
+//   game.start();
 
-  return game;
-}
+//   return game;
+// }
 
 
 document.querySelector('#js-keyboard-button').addEventListener('click', () => {

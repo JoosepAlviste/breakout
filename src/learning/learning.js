@@ -1,5 +1,5 @@
-//import { Breakout, BreakoutSettings, actions } from '../breakout'
-import { Flappy, FlappySettings, actions} from '../flappybird';
+import { Breakout, BreakoutSettings, actions } from '../breakout'
+// import { Flappy, FlappySettings, actions} from '../flappybird';
 
 import {canvas, ctx, resizeCanvas} from '../core/utils/canvas';
 import * as tf from '@tensorflow/tfjs';
@@ -15,7 +15,6 @@ cloneModel(lagged_model, model);
 
 export const optimizer = tf.train.adam(1e-4);
 
-/*
 export function startProgrammaticControlledGame() {
   const game = new Breakout({
     settings: new BreakoutSettings({
@@ -30,12 +29,11 @@ export function startProgrammaticControlledGame() {
       brickOffsetTop: 2,
 
       paddleHeight: 2,
-      paddleWidth: 7,
-      paddleVelocity: 70,
+      paddleWidth: 9,
+      paddleVelocity: 50,
 
       ballRadius: 0.6,
-      ballVelocity: 80,
-      ballInitialAngle: Math.random()*(2.35-0.785) + 0.785,
+      ballVelocity: 60,
     }),
   });
 
@@ -43,13 +41,12 @@ export function startProgrammaticControlledGame() {
 
   return game;
 }
-*/
 
-export function startProgrammaticControlledGame() {
-    const game = new Flappy();
-    game.reset();
-    return game;
-}
+// export function startProgrammaticControlledGame() {
+//     const game = new Flappy();
+//     game.reset();
+//     return game;
+// }
 
 
 export function tensorifyMemory(mem){
@@ -126,9 +123,6 @@ export function init(iters=memory_size){
         const action = Math.floor(Math.random()*num_actions);
         const reward = g.step(action);
         memory.push({state: state, action: action, reward: reward});
-        if(i % 1000 == 0){
-            g = startProgrammaticControlledGame();
-        }
         if(i % 10000 == 0){
             console.log("Init: ", (i/iters)*100, "%");
         }
@@ -200,10 +194,10 @@ export async function train(iters,epsilon){
         doubleTrainOnBatch();
         
         if(i % 1000 == 0){
-            g = startProgrammaticControlledGame();
             reward_arr.push(totalreward);
             console.log("Progress: ", (i/iters)*100, "%", "Reward: ", totalreward);
             console.log(reward_arr);
+            console.log(JSON.stringify(reward_arr));
             totalreward = 0;
             cloneModel(lagged_model, model);
         }
@@ -218,5 +212,5 @@ export async function trainwrapper(){
     console.log("initializing...");
     init();
     console.log("training...");
-    await train(50001, .1);
+    await train(300001, .1);
 }
